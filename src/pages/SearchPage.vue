@@ -15,7 +15,8 @@
             </q-card-section>
           </q-card>-->
       <q-list bordered separator>
-        <q-item clickable v-ripple v-for="(searchResult, key) in searchStore.orderedResults" :key="key">
+      <router-link :to="{name: 'media', params: { mediaType: 'movies', mediaId: 1}}">
+        <q-item clickable v-ripple v-for="(searchResult, key) in searchStore.orderedResults" :key="key" :to="{name: 'media', params: { mediaType: searchResult.media_type, mediaId: searchResult.id}}">
 <!--          <q-item-section>-->
             <q-img
               :src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${searchResult.kinopoisk_id}.jpg`"
@@ -27,11 +28,13 @@
 <!--
           </q-item-section>
 -->
-          <q-item-section>
+          <q-item-section style="align-items: initial; justify-content: initial;">
             <q-item-label>{{ searchResult.ru_title }}</q-item-label>
             <q-item-label caption>{{ searchResult.orig_title }}</q-item-label>
+            <q-item-label caption>{{ searchResult.media_type }}</q-item-label>
           </q-item-section>
         </q-item>
+        </router-link>
       </q-list>
     <div v-if="searchStore.searchResults.length === 0">
       Nothing found
@@ -69,7 +72,7 @@ onBeforeRouteUpdate((to, from) => {
   }
 })
 
-onBeforeMount(() => searchStore._executeSearch = false);
+/*onBeforeMount(() => searchStore._executeSearch = false);*/
 
 onMounted(() => {
   console.log('on mounted')
@@ -94,7 +97,7 @@ onMounted(() => {
     console.log(e);
   }
 })*/
-watch(() => searchStore._executeSearch, async (newValue) =>{
+/*watch(() => searchStore._executeSearch, async (newValue) =>{
   console.log('execute', newValue)
   if(newValue === true){
     $q.loading.show();
@@ -117,5 +120,5 @@ watch(() => searchStore._executeSearch, async (newValue) =>{
       $q.loading.hide();
     }
   }
-})
+})*/
 </script>

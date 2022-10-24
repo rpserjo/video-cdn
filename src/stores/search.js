@@ -38,15 +38,19 @@ export const useSearchStore = defineStore('search', {
   actions: {
     async executeSearch() {
       this.searchResults = [];
-      console.log('search fired');
+      //console.log('search fired');
       const types = this.searchTypes.filter(type => type.checked === true).map(type => type.key);
-      console.log('searching for ', this._searchQuery, this._searchYear, 'in', types);
+      //console.log('searching for ', this._searchQuery, this._searchYear, 'in', types);
       this.q.loading.show();
       try{
         for(const type of types){
-          console.log('searching in', type)
+          //console.log('searching in', type)
           const response = await searchQuery(type, this._searchQuery, this._searchYear);
           if(response && response.data.length > 0){
+          	response.data.map(media => {
+          		media.media_type = type;
+          		return media;
+          	})
             this.searchResults = [...this.searchResults, ...response.data];
           }
         }

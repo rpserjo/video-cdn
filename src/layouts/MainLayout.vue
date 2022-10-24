@@ -9,37 +9,50 @@
             round
             @click="router.push({name: 'index'})"
           />
+          {{ searchSettingsMenu }}
         <q-toolbar-title class="text-dark">
-        <q-input dark dense standout v-model="searchStore.searchQuery" input-class="text-left" class="q-ml-md" @keydown.enter="doSearch">
-          <template v-slot:prepend>
-            <q-btn
+        <q-input dark dense standout v-model="searchStore.searchQuery" input-class="text-left" class="q-ml-md" @click.stop @keydown.enter="doSearch">
+        	<template v-slot:prepend>
+        		<q-btn
               icon="tune"
               color="purple"
               flat
               dense
               round
               class="cursor-pointer"
-            >
-              <q-menu>
-                <div class="row no-wrap q-pa-md">
-                  <div>
-                    <div class="text-h6 q-mb-md">Search Settings</div>
-                    <q-checkbox v-for="(searchType, key) in searchStore.searchTypes"
-                      :label="searchType.label"
-                      :key="key"
-                      v-model="searchType.checked"
-                    />
-                    <q-input v-model.number="searchStore.searchYear" type="number"/>
-                  </div>
-                </div>
-              </q-menu>
-            </q-btn>
-          </template>
+              @click="showSettingsMenu = !showSettingsMenu"
+        		/>
+        	</template>
           <template v-slot:append>
             <q-icon v-if="searchStore.searchQuery === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="searchStore.searchQuery = ''" />
           </template>
         </q-input>
+        <q-menu v-model="searchSettingsMenu" style="max-width: 320px;">
+        	<div class="row no-wrap q-pa-md">
+         	<div>
+            	<div class="text-h6 q-mb-md">Search categories</div>
+               <div v-for="(searchType, key) in searchStore.searchTypes">
+               	<q-checkbox 
+                  	:label="searchType.label"
+                     :key="key"
+                     v-model="searchType.checked"
+	              	/>
+	            </div>	            
+               <q-input v-model.number="searchStore.searchYear" type="number" maxlength="4" label="Year">
+               	<template v-slot:after>
+               		<q-icon
+               			name="search"
+               			@click="doSearch"
+               		/>
+               	</template>
+               	<template v-slot:hint>
+               		Filter by release year
+               	</template>
+               </q-input>               
+            </div>
+          </div>
+        </q-menu>
         </q-toolbar-title>
         <transition name="bounce" mode="out-in">
           <q-btn
@@ -87,8 +100,14 @@
       </q-scroll-area>
     </q-drawer>
     <q-page-container>
-      <router-view v-if="translationsStore.translations.length > 0"/>
-      <div v-else>Translations is loading...</div>
+    	<template v-if="translationsStore.translations.length > 0">
+			<router-view v-slot="{ Component }">
+				<keep-alive>
+					<component :is="Component" />
+				</keep-alive>
+			</router-view>    	
+    	</template>
+    	<div v-else>Translations is loading...</div>    
     </q-page-container>
   </q-layout>
 </template>
@@ -106,8 +125,13 @@ const router = useRouter();
 const route = useRoute();
 const leftDrawerOpen = ref(false);
 const darkMode = ref(false);
+const searchSettingsMenu = ref(false);
 
 const searchStore = useSearchStore();
+
+const clickHandler = () => {
+	alert('click');
+}
 const doSearch = () => {
   if(searchStore.searchQuery.length > 0){
     //console.log(`searching for ${searchStore.searchQuery}`);
@@ -119,7 +143,9 @@ const doSearch = () => {
       }
     });
     searchStore._executeSearch = true;*/
-    console.log(route)
+    //console.log(route)
+    searchSettingsMenu.value = false;
+    //alert(searchSettingsMenu.value)
     router.push({
       name: 'search',
       params: {
@@ -139,7 +165,8 @@ watch(darkMode, (newValue) => {
   $q.dark.set(newValue);
 })
 
-watch(() => searchStore._executeSearch, (nV) => console.log('ex', nV));
+/*watch(() => searchStore._executeSearch, (nV) => console.log('ex', nV));*/
+//watch(searchSettingsMenu, (nV) => alert(`Search Settings ${nV}`));
 const translationsStore = useTranslationsStore();
 
 onBeforeMount(async () => {
@@ -147,7 +174,7 @@ onBeforeMount(async () => {
   $q.loading.show();
   try{
     const { data } = await fetchTranslations();
-    console.log(data)
+    //console.log(data)
     if(data && data.length > 0) translationsStore.setTranslations(data);
   }catch(e){
     console.log(e);
