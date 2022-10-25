@@ -96,6 +96,30 @@
               <q-toggle color="blue" v-model="darkMode" />
             </q-item-section>
           </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section>
+              <q-item-label>Watch online</q-item-label>
+            </q-item-section>
+            <q-item-section side >
+              <q-toggle color="blue" v-model="playerStore.watchOnline" />
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section>
+              <q-item-label>Autoplay</q-item-label>
+            </q-item-section>
+            <q-item-section side >
+              <q-toggle color="blue" v-model="playerStore.autoPlay" />
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section>
+              <q-item-label>Play next episode</q-item-label>
+            </q-item-section>
+            <q-item-section side >
+              <q-toggle color="blue" v-model="playerStore.playNextEpisode" />
+            </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -119,6 +143,7 @@ import {useTranslationsStore} from "stores/translations";
 import { fetchTranslations } from "src/http";
 import {useSearchStore} from "stores/search";
 import {useRoute, useRouter} from "vue-router";
+import { usePlayerStore } from 'src/stores/player';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -128,6 +153,7 @@ const darkMode = ref(false);
 const searchSettingsMenu = ref(false);
 
 const searchStore = useSearchStore();
+const playerStore = usePlayerStore();
 
 const clickHandler = () => {
 	alert('click');

@@ -31,15 +31,23 @@
 				<q-item-section>
 					{{ translationsStore.smartTitle(translation) }}
 				</q-item-section>
-				<q-menu>
+				<q-menu touch-position>
 					<div class="row no-wrap q-pa-md">
-						<h6>Links</h6>
+						<div class="column">
+							<div class="col">
+								{{ translationsStore.smartTitle(translation) }}
+							</div>
+							<div v-for="(link, quality) in mediaStore.translation(translation)" :key="quality" class="col q-pa-sm">
+								<q-btn v-if="playerStore.watchOnline" outline rounded no-caps icon="movie" :label="`${quality}p`" />
+								<q-btn v-else outline rounded no-caps :href="link" icon="download" :label="`${quality}p`" />
+							</div>
+						</div>
 					</div>
 				</q-menu>
 			</q-item>
    	</template>
    	<template v-else>
-   		<q-item clickable v-ripple v-for="(translation, key) in translations" :key="key" :to="{name: 'translation', params: {translationId: translation}}">
+   		<q-item clickable v-ripple v-for="(translation, key) in translations" :key="key" :to="{name: 'translation', params: {translationId: translation}}">	
 				<q-item-section avatar>
 					<q-icon color="secondary" name="folder" />
 				</q-item-section>
@@ -56,11 +64,13 @@ import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMediaStore } from 'src/stores/media';
 import { useTranslationsStore } from 'src/stores/translations';
+import { usePlayerStore } from 'src/stores/player';
 
 
 const route = useRoute();
 const mediaStore = useMediaStore();
 const translationsStore = useTranslationsStore();
+const playerStore = usePlayerStore();
 const mediaType = ref('');
 const mediaId = ref(0);
 

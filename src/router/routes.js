@@ -30,7 +30,7 @@ const routes = [
 					component: () => import('../views/MediaTranslationView.vue')				
 				},
 				{
-					path: 'translation/:translationId/:seasonNum',
+					path: 'translation/:translationId/season/:seasonNum',
 					name: 'season',
 					component: () => import('../views/MediaSeasonView.vue')				
 				}

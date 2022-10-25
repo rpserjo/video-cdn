@@ -13,7 +13,7 @@
    			</q-item-section>
    		</q-item>
    		<q-separator />
-      	<q-item v-ripple v-for="(season, key) in translation.seasons" :key="key" :to="{name: 'season', params: {translationId: translation, seasonNum: season.season_num}}">
+      	<q-item v-ripple v-for="(season, key) in translation.seasons" :key="key" :to="{name: 'season', params: {seasonNum: season.season_num}}">			
 				<q-item-section avatar>
 					<q-icon color="secondary" name="folder" />
 				</q-item-section>
