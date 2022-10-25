@@ -24,10 +24,18 @@
    <q-list bordered padding>
    	<q-item-label header>Translations</q-item-label>
    	<template v-if="mediaType === 'movies'">
-   		<q-item tag="label" v-ripple v-for="(translation, key) in translations" :key="key">
-				<q-item-section>
-					<q-item-label>[MOVIE] {{ translationsStore.smartTitle(translation) }}</q-item-label>
+   		<q-item v-ripple v-for="(translation, key) in translations" :key="key">
+				<q-item-section avatar>
+					<q-icon color="secondary" name="movie" />
 				</q-item-section>
+				<q-item-section>
+					{{ translationsStore.smartTitle(translation) }}
+				</q-item-section>
+				<q-menu>
+					<div class="row no-wrap q-pa-md">
+						<h6>Links</h6>
+					</div>
+				</q-menu>
 			</q-item>
    	</template>
    	<template v-else>
