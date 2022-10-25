@@ -1,9 +1,5 @@
 <template>
   <q-page>
-  	{{ mediaType }} / {{ mediaId }}
-  	<hr>
-   {{ mediaStore.mediaApiData.orig_title }} / {{ mediaStore.mediaApiData.ru_title }} ({{ mediaStore.mediaApiData.media_year }})
-   <img :src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`" style="height: 300px;">
 	<router-view />
   </q-page>
 </template>
