@@ -20,25 +20,50 @@
               dense
               round
               class="cursor-pointer"
-              @click="showSettingsMenu = !showSettingsMenu"
-        		/>
+        		>
+              <q-menu style="max-width: 320px;" v-model="searchSettingsMenu">
+                <div class="row no-wrap q-pa-md">
+                  <div>
+                    <div class="text-h6 q-mb-md">Search categories</div>
+                    <div v-for="(searchType, key) in searchStore.searchTypes">
+                      <q-checkbox
+                        :label="searchType.label"
+                        :key="key"
+                        v-model="searchType.checked"
+                      />
+                    </div>
+                    <q-input v-model.number="searchStore.searchYear" type="number" maxlength="4" label="Year">
+                      <template v-slot:after>
+                        <q-icon
+                          name="search"
+                          @click="doSearch"
+                        />
+                      </template>
+                      <template v-slot:hint>
+                        Filter by release year
+                      </template>
+                    </q-input>
+                  </div>
+                </div>
+              </q-menu>
+            </q-btn>
         	</template>
           <template v-slot:append>
             <q-icon v-if="searchStore.searchQuery === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="searchStore.searchQuery = ''" />
           </template>
         </q-input>
-        <q-menu v-model="searchSettingsMenu" style="max-width: 320px;">
+<!--        <q-menu style="max-width: 320px;">
         	<div class="row no-wrap q-pa-md">
          	<div>
             	<div class="text-h6 q-mb-md">Search categories</div>
                <div v-for="(searchType, key) in searchStore.searchTypes">
-               	<q-checkbox 
+               	<q-checkbox
                   	:label="searchType.label"
                      :key="key"
                      v-model="searchType.checked"
 	              	/>
-	            </div>	            
+	            </div>
                <q-input v-model.number="searchStore.searchYear" type="number" maxlength="4" label="Year">
                	<template v-slot:after>
                		<q-icon
@@ -49,10 +74,10 @@
                	<template v-slot:hint>
                		Filter by release year
                	</template>
-               </q-input>               
+               </q-input>
             </div>
           </div>
-        </q-menu>
+        </q-menu>-->
         </q-toolbar-title>
         <transition name="bounce" mode="out-in">
           <q-btn
@@ -129,9 +154,9 @@
 				<keep-alive>
 					<component :is="Component" />
 				</keep-alive>
-			</router-view>    	
+			</router-view>
     	</template>
-    	<div v-else>Translations is loading...</div>    
+    	<div v-else>Translations is loading...</div>
     </q-page-container>
   </q-layout>
 </template>
@@ -181,9 +206,9 @@ const doSearch = () => {
     });
     searchStore._searchQuery = searchStore.searchQuery;
     searchStore._searchYear = searchStore.searchYear;
-    if(route.name === 'search'){
+    //if(route.name === 'search'){
       searchStore.executeSearch();
-    }
+    //}
   }
 }
 

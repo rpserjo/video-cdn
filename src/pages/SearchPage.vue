@@ -82,6 +82,11 @@ onMounted(() => {
 */
 })
 
+/*watch([() => searchStore._searchQuery, () => searchStore._searchYear], ([newQuery, newYear]) => {
+  console.log('watch')
+  searchStore.executeSearch();
+});*/
+
 /*watch(() => route, (newRoute) => {
   console.log('new route', newRoute)
 }, {deep: true});*/
