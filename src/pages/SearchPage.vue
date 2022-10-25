@@ -15,8 +15,7 @@
             </q-card-section>
           </q-card>-->
       <q-list bordered separator>
-      <router-link :to="{name: 'media', params: { mediaType: 'movies', mediaId: 1}}">
-        <q-item clickable v-ripple v-for="(searchResult, key) in searchStore.orderedResults" :key="key" :to="{name: 'media', params: { mediaType: searchResult.media_type, mediaId: searchResult.id}}">
+        <q-item clickable v-ripple v-for="(searchResult, key) in searchStore.orderedResults" :key="key" :to="{name: 'media-index', params: { mediaType: searchResult.media_type, mediaId: searchResult.id}}">
 <!--          <q-item-section>-->
             <q-img
               :src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${searchResult.kinopoisk_id}.jpg`"
@@ -34,7 +33,6 @@
             <q-item-label caption>{{ searchResult.media_type }}</q-item-label>
           </q-item-section>
         </q-item>
-        </router-link>
       </q-list>
     <div v-if="searchStore.searchResults.length === 0">
       Nothing found

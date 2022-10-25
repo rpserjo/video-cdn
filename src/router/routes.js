@@ -22,12 +22,17 @@ const routes = [
 				{
 					path: '',
 					name: 'media-index',
-					component: () => import('components/MediaIndex.vue')
+					component: () => import('../views/MediaIndexView.vue')
 				},
 				{
 					path: 'translation/:translationId',
 					name: 'translation',
-					component: () => import('components/TranslationComponent.vue')				
+					component: () => import('../views/MediaTranslationView.vue')				
+				},
+				{
+					path: 'translation/:translationId/:seasonNum',
+					name: 'season',
+					component: () => import('../views/MediaSeasonView.vue')				
 				}
 			]    
       }

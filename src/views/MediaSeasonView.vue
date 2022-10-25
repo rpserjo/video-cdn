@@ -1,0 +1,3 @@
+<template>
+	Season
+</template>
