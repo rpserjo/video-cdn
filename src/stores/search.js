@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import {useQuasar} from "quasar";
 import {searchQuery} from "src/http";
 
-
 export const useSearchStore = defineStore('search', {
   state: () => ({
     searchQuery: '',
@@ -38,13 +37,12 @@ export const useSearchStore = defineStore('search', {
   actions: {
     async executeSearch() {
       this.searchResults = [];
-      //console.log('search fired');
+      console.log('search fired');
       const types = this.searchTypes.filter(type => type.checked === true).map(type => type.key);
-      //console.log('searching for ', this._searchQuery, this._searchYear, 'in', types);
       this.q.loading.show();
+      localStorage.setItem('lastSearchQuery', this._searchQuery)
       try{
         for(const type of types){
-          //console.log('searching in', type)
           const response = await searchQuery(type, this._searchQuery, this._searchYear);
           if(response && response.data.length > 0){
           	response.data.map(media => {
@@ -59,13 +57,6 @@ export const useSearchStore = defineStore('search', {
       }finally{
         this.q.loading.hide();
       }
-      //const $q = useQuasar();
-      /*this.q.loading.show();
-      console.log(`searching for ${this._searchQuery} in ${this.searchTypes}`)
-      setTimeout(() => {
-        console.log('search finished')
-        this.q.loading.hide()
-      }, 2000)*/
     }
   }
 })

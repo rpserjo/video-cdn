@@ -9,6 +9,9 @@ export const useMediaStore = defineStore('media', {
   	mediaTitleInline: (state) => {
   		return `${state.mediaApiData.ru_title} / ${state.mediaApiData.orig_title}`;
   	},
+    mediaDownloadTitle: (state) => {
+      return `${state.mediaApiData.orig_title} (${state.mediaApiData.media_year})`;
+    },
     translations: (state) => {
       return Object.keys(state.mediaFiles);
     },
@@ -28,7 +31,7 @@ export const useMediaStore = defineStore('media', {
         //const episodesData = state.mediaApiData.episodes || [];
         //console.log(episodesData)
         const episode = state.mediaApiData.episodes.filter(episode => episode.season_num == seasonNum && episode.num == episodeNum)[0];
-        console.log(seasonNum, episodeNum, episode)
+        //console.log(seasonNum, episodeNum, episode)
         let title = `S${seasonNum.padStart(2, '0')}E${episodeNum}`;
         if(episode != undefined){
           title = `${title} - ${episode.orig_title}`;

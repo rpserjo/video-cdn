@@ -1,3 +1,4 @@
+import {useSearchStore} from "stores/search";
 
 const routes = [
   {
@@ -12,7 +13,14 @@ const routes = [
       {
         path: 'search/:searchQuery/:searchYear?',
         name: 'search',
-        component: () => import('pages/SearchPage.vue')
+        component: () => import('pages/SearchPage.vue'),
+        props: true,
+        beforeEnter: (to, from) => {
+          if(from.name === undefined){
+            to.params.outside = true;
+            console.log('outside')
+          }
+        }
       },
       {
 			path: 'media/:mediaType(movies|tv-series|show-tv-series)/:mediaId',
@@ -27,14 +35,14 @@ const routes = [
 				{
 					path: 'translation/:translationId',
 					name: 'translation',
-					component: () => import('../views/MediaTranslationView.vue')				
+					component: () => import('../views/MediaTranslationView.vue')
 				},
 				{
 					path: 'translation/:translationId/season/:seasonNum',
 					name: 'season',
-					component: () => import('../views/MediaSeasonView.vue')				
+					component: () => import('../views/MediaSeasonView.vue')
 				}
-			]    
+			]
       }
     ]
   },

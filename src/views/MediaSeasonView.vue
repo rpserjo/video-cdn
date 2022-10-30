@@ -13,12 +13,19 @@
     </q-item>
     <q-separator />
     <q-item v-ripple v-for="(episode, key) in season.episodes" :key="key">
-      <q-item-section avatar>
+<!--      <q-item-section avatar>
         <q-icon color="secondary" name="movie" />
       </q-item-section>
       <q-item-section>
         {{ mediaStore.episodeTitle(seasonNum, episode.episode_num)}}
-      </q-item-section>
+      </q-item-section>-->
+      <media-element
+        :media-title="mediaStore.episodeTitle(seasonNum, episode.episode_num)"
+        :media-links="episode.links"
+        :poster="episode.poster"
+        :watch-key="watchKey(seasonNum, episode.episode_num)"
+        :download-name="downloadName(episode.episode_num)"
+      />
     </q-item>
   </q-list>
 </template>
@@ -28,6 +35,7 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMediaStore } from 'src/stores/media';
 import {useTranslationsStore} from "stores/translations";
+import MediaElement from 'src/components/MediaElement.vue';
 
 const route = useRoute();
 const translationId = route.params.translationId;
@@ -37,4 +45,11 @@ const translationsStore = useTranslationsStore();
 
 const season = computed(() => mediaStore.season(translationId, seasonNum));
 
+const watchKey = (seasonNum, episodeNum) => {
+  return `${route.params.mediaType}_${route.params.mediaId}_${seasonNum}_${episodeNum}`;
+}
+
+const downloadName = (episodeNum) => {
+  return `${mediaStore.mediaDownloadTitle} S${seasonNum.padStart(2, '0')}E${episodeNum}`;
+}
 </script>

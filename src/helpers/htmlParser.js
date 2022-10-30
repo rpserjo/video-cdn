@@ -25,7 +25,7 @@ const parseFiles = (string) => {
         const link = file.split('?')[0];
         const quality = link.split('/').at(-1).replace('.mp4', '');
         return {
-            link: file.split('?')[0],
+            link: 'https:' + file.split('?')[0],
             quality: quality
         }
     });
