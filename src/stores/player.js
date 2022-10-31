@@ -8,7 +8,10 @@ export const usePlayerStore = defineStore('player', {
     showPlayer: false,
     poster: '',
     src: '',
-    watchKey: null
+    quality: 240,
+    episodeNum: null,
+    watchKey: null,
+    playlist: []
 
   }),
   getters: {

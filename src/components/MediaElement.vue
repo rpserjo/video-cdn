@@ -16,9 +16,6 @@
   >
     <div class="row no-wrap q-pa-md">
       <div class="column">
-        <div class="col">
-          {{ props.mediaTitle }} | {{ props.watchKey }}
-        </div>
         <div v-for="(link, quality) in mediaLinks" :key="quality" class="col q-pa-sm">
           <q-btn
             v-if="playerStore.watchOnline"
@@ -27,7 +24,7 @@
             no-caps
             icon="movie"
             :label="`${quality}p`"
-            @click="playVideo(link)"
+            @click="playVideo(link, quality)"
           />
           <q-btn
             v-else
@@ -45,7 +42,7 @@
 </template>
 
 <script setup>
-import {usePlayerStore} from "stores/player";
+import { usePlayerStore } from "stores/player";
 import { ref } from 'vue';
 
 const showPlayerMenu = ref(false);
@@ -58,14 +55,25 @@ const props = defineProps({
   downloadName: {
     type: String,
     default: 'File'
+  },
+  playlist: {
+	type: Array,
+	default: []  
+  },
+  episodeNum: {
+	type: Number,
+	default: 0  
   }
 });
 
-const playVideo = (src) => {
+const playVideo = (src, quality) => {
   showPlayerMenu.value = false;
   playerStore.showPlayer = true;
   playerStore.poster = props.poster;
   playerStore.src = src;
   playerStore.watchKey = props.watchKey;
+  playerStore.playlist = props.playlist;
+  playerStore.quality = quality;
+  playerStore.episodeNum = props.episodeNum;
 }
 </script>
