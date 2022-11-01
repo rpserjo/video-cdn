@@ -3,19 +3,27 @@
     <q-header elevated class="bg-teal-5">
       <q-toolbar class="flex">
           <q-btn
+          	v-if="route.name === 'index'"
             icon="live_tv"
             flat
             dense
             round
             @click="router.push({name: 'index'})"
           />
-          {{ searchSettingsMenu }}
+          <q-btn
+          	v-else
+            icon="arrow"
+            flat
+            dense
+            round
+            @click="router.go(-1)"
+          />
         <q-toolbar-title class="text-dark">
           <q-input dark dense standout v-model="searchStore.searchQuery" input-class="text-left" class="q-ml-md" @click.stop @keydown.enter="doSearch">
             <template v-slot:prepend>
               <q-btn
                 icon="tune"
-                color="purple"
+                color="light"
                 flat
                 dense
                 round
@@ -76,53 +84,12 @@
         </transition>
       </q-toolbar>
     </q-header>
-    <q-drawer
-      v-model="leftDrawerOpen"
-      side="right"
-      :width="320"
-      bordered
-      overlay
-      elevated
-      :class="darkMode ? 'bg-dark-3': 'bg-grey-3'"
-    >
-      <q-scroll-area class="fit">
-        <q-list bordered padding>
-          <q-item-label header>Settings</q-item-label>
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label>Dark mode</q-item-label>
-            </q-item-section>
-            <q-item-section side >
-              <q-toggle color="blue" v-model="darkMode" />
-            </q-item-section>
-          </q-item>
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label>Watch online</q-item-label>
-            </q-item-section>
-            <q-item-section side >
-              <q-toggle color="blue" v-model="playerStore.watchOnline" />
-            </q-item-section>
-          </q-item>
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label>Autoplay</q-item-label>
-            </q-item-section>
-            <q-item-section side >
-              <q-toggle color="blue" v-model="playerStore.autoPlay" />
-            </q-item-section>
-          </q-item>
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label>Play next episode</q-item-label>
-            </q-item-section>
-            <q-item-section side >
-              <q-toggle color="blue" v-model="playerStore.playNextEpisode" />
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-    </q-drawer>
+    <settings-menu
+    	:drawerOpen="leftDrawerOpen"
+		@updateDrawerOpen="leftDrawerOpen = $event"
+		:darkMode="darkMode"
+		@updateDarkMode="darkMode = $event"
+    />
     <q-page-container>
     	<template v-if="translationsStore.translations.length > 0">
 			<router-view v-slot="{ Component }">
@@ -162,6 +129,7 @@ import { fetchTranslations } from "src/http";
 import {useSearchStore} from "stores/search";
 import {useRoute, useRouter} from "vue-router";
 import { usePlayerStore } from 'src/stores/player';
+import SettingsMenu from 'src/components/SettingsMenu.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -214,6 +182,8 @@ onBeforeMount(async () => {
     $q.loading.hide();
   }
 })
+
+const alrt = val => alert(val); 
 </script>
 
 <style scoped>
