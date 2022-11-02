@@ -151,7 +151,19 @@ watch(darkMode, (newValue) => {
 
 watch(() => playerStore.watchOnline, (newValue) => {
   localStorage.setItem('watchOnline', newValue);
-})
+});
+
+watch(() => playerStore.autoPlay, (newValue) => {
+  localStorage.setItem('autoPlay', newValue);
+});
+
+watch(() => playerStore.playNextEpisode, (newValue) => {
+  localStorage.setItem('playNextEpisode', newValue);
+});
+
+watch(() => playerStore.watchHistory, () => {
+  localStorage.setItem('watchHistory', JSON.stringify(Array.from(playerStore.watchHistory)))
+}, {deep: true});
 
 const translationsStore = useTranslationsStore();
 
@@ -159,6 +171,10 @@ onBeforeMount(async () => {
   $q.loading.show();
   searchStore.searchQuery = localStorage.getItem('lastSearchQuery') || '';
   playerStore.watchOnline = localStorage.getItem('watchOnline') == 'true' ? true : false;
+  playerStore.autoPlay = localStorage.getItem('autoPlay') == 'true' ? true : false;
+  playerStore.playNextEpisode = localStorage.getItem('playNextEpisode') == 'true' ? true : false;
+  const watchHistoryLocal = localStorage.getItem('watchHistory');
+  playerStore.watchHistory = new Set(JSON.parse(watchHistoryLocal)) || new Set();
   try{
     const { data } = await fetchTranslations();
     if(data && data.length > 0) translationsStore.setTranslations(data);

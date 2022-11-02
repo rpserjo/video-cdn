@@ -1,9 +1,12 @@
 <template>
   <q-item-section avatar>
-    <q-icon color="secondary" name="movie" />
+    <q-icon
+      :color="playerStore.isWatched(props.watchKey) ? 'primary' : 'secondary'"
+      name="movie"
+    />
   </q-item-section>
   <q-item-section>
-    {{ props.mediaTitle }} {{ props.episodeNum }}
+    {{ props.mediaTitle }}
     <q-item-label caption>{{ Object.keys(props.mediaLinks).map(q => `${q}p`).join(', ') }}</q-item-label>
   </q-item-section>
   <q-menu
@@ -58,11 +61,11 @@ const props = defineProps({
   },
   playlist: {
 	type: Array,
-	default: []  
+	default: []
   },
   episodeNum: {
 	type: Number,
-	default: 0  
+	default: 0
   }
 });
 
