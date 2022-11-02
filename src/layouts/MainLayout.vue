@@ -2,22 +2,24 @@
   <q-layout view="lHh LpR lff">
     <q-header elevated class="bg-teal-5">
       <q-toolbar class="flex">
-          <q-btn
-          	v-if="route.name === 'index'"
-            icon="live_tv"
-            flat
-            dense
-            round
-            @click="router.push({name: 'index'})"
-          />
-          <q-btn
-          	v-else
-            icon="arrow"
-            flat
-            dense
-            round
-            @click="router.go(-1)"
-          />
+      	<transition name="flip" mode="out-in">
+          	<q-btn
+          		v-if="route.name === 'index'"
+            	icon="live_tv"
+            	flat
+            	dense
+            	round
+            	@click="router.push({name: 'index'})"
+          	/>
+          	<q-btn
+          		v-else
+            	icon="arrow_back"
+            	flat
+            	dense
+            	round
+            	@click="router.go(-1)"
+          	/>
+          </transition>
         <q-toolbar-title class="text-dark">
           <q-input dark dense standout v-model="searchStore.searchQuery" input-class="text-left" class="q-ml-md" @click.stop @keydown.enter="doSearch">
             <template v-slot:prepend>
@@ -85,10 +87,10 @@
       </q-toolbar>
     </q-header>
     <settings-menu
-    	:drawerOpen="leftDrawerOpen"
-		@updateDrawerOpen="leftDrawerOpen = $event"
-		:darkMode="darkMode"
-		@updateDarkMode="darkMode = $event"
+    	:drawer-open="leftDrawerOpen"
+    	@update:drawer-open="leftDrawerOpen = $event"
+    	:dark-mode="darkMode"
+    	@update:dark-mode="darkMode = $event"
     />
     <q-page-container>
     	<template v-if="translationsStore.translations.length > 0">
@@ -101,35 +103,19 @@
     	<div v-else>Translations is loading...</div>
     </q-page-container>
   </q-layout>
-  <teleport to="body">
-    <div
-      v-if="playerStore.showPlayer"
-      class="fullscreen fit column wrap justify-center items-center content-center"
-      style="background-color: rgba(0, 0, 0, 0.55);"
-      @click="playerStore.showPlayer = false"
-    >
-      {{ playerStore.watchKey }}
-      <video
-        style="max-width: 90%; max-height: 90%;"
-        :poster="playerStore.poster"
-        @click.stop
-        controls
-      >
-        <source :src="playerStore.src" type="video/mp4" />
-      </video>
-    </div>
-  </teleport>
+  <video-player />
 </template>
 
 <script setup>
-import {onBeforeMount, reactive, ref, watch} from 'vue';
+import { onBeforeMount, reactive, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
-import {useTranslationsStore} from "stores/translations";
+import { useTranslationsStore } from "stores/translations";
 import { fetchTranslations } from "src/http";
-import {useSearchStore} from "stores/search";
-import {useRoute, useRouter} from "vue-router";
+import { useSearchStore } from "stores/search";
+import { useRoute, useRouter } from "vue-router";
 import { usePlayerStore } from 'src/stores/player';
 import SettingsMenu from 'src/components/SettingsMenu.vue';
+import VideoPlayer from 'src/components/VideoPlayer.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -183,7 +169,6 @@ onBeforeMount(async () => {
   }
 })
 
-const alrt = val => alert(val); 
 </script>
 
 <style scoped>
@@ -195,10 +180,17 @@ const alrt = val => alert(val);
 .bounce-up-leave-to{
   transform: translateY(-100%);
 }
+.flip-enter-from,
+.flip-leave-to{
+  transform: scale(1, 0);
+}
+
 .bounce-enter-active,
 .bounce-leave-active,
 .bounce-up-enter-active,
-.bounce-up-leave-active{
+.bounce-up-leave-active,
+.flip-enter-active,
+.flip-leave-active{
   transition: all 0.25s ease-in-out;
 }
 </style>

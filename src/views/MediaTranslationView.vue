@@ -3,8 +3,6 @@
 		<q-list bordered separator>
    		<q-item clickable v-ripple :to="{name: 'media-index'}">
    			<q-item-section avatar>
-					<!--<q-icon color="dark" name="drive_folder_move_rtl" />-->
-					<!--<q-icon color="dark" name="folder_copy" />-->
 					<q-icon color="dark" name="drive_folder_upload" />
 				</q-item-section>
    			<q-item-section>

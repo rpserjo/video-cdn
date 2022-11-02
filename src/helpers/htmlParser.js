@@ -13,7 +13,7 @@ const parseFolder = (folder) => {
 
 const parseEpisode = (episode) => {
     return {
-        episode_num: episode.id.split('_')[1].padStart(2, '0'),
+        episode_num: parseInt(episode.id.split('_')[1]),
         links: parseFiles(episode.file),
         poster: episode.poster
     }

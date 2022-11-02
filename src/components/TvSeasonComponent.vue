@@ -7,7 +7,7 @@
 			:watch-key="watchKey(episode.episode_num)"
 			:download-name="downloadName(episode.episode_num)"
 			:playlist="props.episodes"
-			:episode-num="episode.num"
+			:episode-num="episode.episode_num"
 		/>
 	</q-item>
 </template>
@@ -28,6 +28,6 @@ const watchKey = (episodeNum) => {
 }
 
 const downloadName = (episodeNum) => {
-  return `${mediaStore.mediaDownloadTitle} S${props.seasonNum.padStart(2, '0')}E${episodeNum}`;
+  return `${mediaStore.mediaDownloadTitle} S${props.seasonNum.padStart(2, '0')}E${String(episodeNum).padStart(2, '0')}`;
 }
 </script>

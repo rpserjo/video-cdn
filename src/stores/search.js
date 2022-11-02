@@ -47,6 +47,8 @@ export const useSearchStore = defineStore('search', {
           if(response && response.data.length > 0){
           	response.data.map(media => {
           		media.media_type = type;
+          		media.media_year = (type === 'movies') ? media.released : media.start_date;//.substring(0, 4);
+          		media.media_year = media.media_year.substring(0, 4);
           		return media;
           	})
             this.searchResults = [...this.searchResults, ...response.data];

@@ -1,7 +1,7 @@
 <template>
 	<q-drawer
       :model-value="props.drawerOpen"
-      @update:model-value="updateDrawer"
+      @update:model-value="emits('update:drawerOpen')"
       side="right"
       :width="320"
       bordered
@@ -17,7 +17,7 @@
               <q-item-label>Dark mode</q-item-label>
             </q-item-section>
             <q-item-section side >
-              <q-toggle color="blue" v-model="darkMode" />
+              <q-toggle color="blue" :model-value="props.darkMode" @update:model-value="emits('update:darkMode', $event)"/>
             </q-item-section>
           </q-item>
           <q-item tag="label" v-ripple>
@@ -52,16 +52,10 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { usePlayerStore } from 'src/stores/player';
+import { useQuasar } from 'quasar';
 
 const playerStore = usePlayerStore();
-const darkMode = ref(false);
-
 const props = defineProps(['drawerOpen', 'darkMode']);
-const emits = defineEmits(['updateDrawerOpen', 'updateDarkMode']);
-
-const updatedDrawer = value => emits('updateDrawerOpen', value);
-
-
-
+const emits = defineEmits(['update:drawerOpen', 'update:darkMode']);
 
 </script>

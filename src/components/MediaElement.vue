@@ -3,7 +3,7 @@
     <q-icon color="secondary" name="movie" />
   </q-item-section>
   <q-item-section>
-    {{ props.mediaTitle }}
+    {{ props.mediaTitle }} {{ props.episodeNum }}
     <q-item-label caption>{{ Object.keys(props.mediaLinks).map(q => `${q}p`).join(', ') }}</q-item-label>
   </q-item-section>
   <q-menu

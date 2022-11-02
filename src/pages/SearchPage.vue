@@ -8,11 +8,14 @@
               loading="lazy"
               spinner-color="white"
               style="width: 100px; height: 150px;"
-            />
+            >
+            	<div class="absolute-bottom-right text-subtitle2">
+   					{{ searchResult.media_type }}
+   				</div>
+   			</q-img>
           <q-item-section style="align-items: initial; justify-content: initial;">
             <q-item-label>{{ searchResult.ru_title }}</q-item-label>
-            <q-item-label caption>{{ searchResult.orig_title }}</q-item-label>
-            <q-item-label caption>{{ searchResult.media_type }}</q-item-label>
+            <q-item-label caption>{{ searchResult.orig_title }} ({{ searchResult.media_year }})</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

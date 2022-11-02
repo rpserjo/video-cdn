@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: 'https://3.svetacdn.in/api/',
+  //baseURL: 'https://3.svetacdn.in/api/',
+  baseURL: 'https://333.annacdn.cc/api/',
   params: {
     api_token: 'gZrhCKFj6pA1W4h96i6g5IjhW7aR0CLk'
   }
