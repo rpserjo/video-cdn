@@ -37,7 +37,6 @@ export const useSearchStore = defineStore('search', {
   actions: {
     async executeSearch() {
       this.searchResults = [];
-      console.log('search fired');
       const types = this.searchTypes.filter(type => type.checked === true).map(type => type.key);
       this.q.loading.show();
       localStorage.setItem('lastSearchQuery', this._searchQuery)

@@ -107,7 +107,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, ref, watch } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import { useTranslationsStore } from "stores/translations";
 import { fetchTranslations } from "src/http";
@@ -116,6 +116,7 @@ import { useRoute, useRouter } from "vue-router";
 import { usePlayerStore } from 'src/stores/player';
 import SettingsMenu from 'src/components/SettingsMenu.vue';
 import VideoPlayer from 'src/components/VideoPlayer.vue';
+import {useBookmarksStore} from "stores/bookmarks";
 
 const $q = useQuasar();
 const router = useRouter();
@@ -126,6 +127,8 @@ const searchSettingsMenu = ref(false);
 
 const searchStore = useSearchStore();
 const playerStore = usePlayerStore();
+const translationsStore = useTranslationsStore();
+const bookmarksStore = useBookmarksStore();
 
 const doSearch = () => {
   if(searchStore.searchQuery.length > 0){
@@ -139,9 +142,7 @@ const doSearch = () => {
     });
     searchStore._searchQuery = searchStore.searchQuery;
     searchStore._searchYear = searchStore.searchYear;
-    //if(route.name === 'search'){
-      searchStore.executeSearch();
-    //}
+    searchStore.executeSearch();
   }
 }
 
@@ -165,7 +166,9 @@ watch(() => playerStore.watchHistory, () => {
   localStorage.setItem('watchHistory', JSON.stringify(Array.from(playerStore.watchHistory)))
 }, {deep: true});
 
-const translationsStore = useTranslationsStore();
+watch(() => bookmarksStore.bookmarks, () => {
+  localStorage.setItem('bookmarks', JSON.stringify(Array.from(bookmarksStore.bookmarks)))
+}, {deep: true});
 
 onBeforeMount(async () => {
   $q.loading.show();
@@ -175,16 +178,17 @@ onBeforeMount(async () => {
   playerStore.playNextEpisode = localStorage.getItem('playNextEpisode') == 'true' ? true : false;
   const watchHistoryLocal = localStorage.getItem('watchHistory');
   playerStore.watchHistory = new Set(JSON.parse(watchHistoryLocal)) || new Set();
+  const bookmarksLocal = localStorage.getItem('bookmarks');
+  bookmarksStore.bookmarks = new Set(JSON.parse(bookmarksLocal)) || new Set();
   try{
-    const { data } = await fetchTranslations();
-    if(data && data.length > 0) translationsStore.setTranslations(data);
+    const translations = await fetchTranslations();
+    if(translations && translations.data.length > 0) translationsStore.setTranslations(translations.data);
   }catch(e){
     console.log(e);
   }finally{
     $q.loading.hide();
   }
-})
-
+});
 </script>
 
 <style scoped>

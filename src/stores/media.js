@@ -28,10 +28,7 @@ export const useMediaStore = defineStore('media', {
     },
     episodeTitle: (state) => {
       return (seasonNum, episodeNum) => {
-        //const episodesData = state.mediaApiData.episodes || [];
-        //console.log(episodesData)
         const episode = state.mediaApiData.episodes.filter(episode => episode.season_num == seasonNum && episode.num == episodeNum)[0];
-        //console.log(seasonNum, episodeNum, episode)
         let title = `S${seasonNum.padStart(2, '0')}E${String(episodeNum).padStart(2, '0')}`;
         if(episode != undefined){
           title = `${title} - ${episode.orig_title}`;
@@ -42,8 +39,5 @@ export const useMediaStore = defineStore('media', {
         return title;
       }
     }
-  },
-  actions: {
-
   }
 });

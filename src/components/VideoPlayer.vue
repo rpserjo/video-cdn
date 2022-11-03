@@ -6,10 +6,6 @@
       style="background-color: rgba(0, 0, 0, 0.55);"
       @click="playerStore.showPlayer = false"
     >
-      <span style="background-color: white;">
-        {{ playerStore.watchKey }}<p/>
-        {{ playerStore.hasNext }}<p/>
-      </span>
       <video
         style="max-width: 90%; max-height: 90%;"
         :poster="playerStore.poster"

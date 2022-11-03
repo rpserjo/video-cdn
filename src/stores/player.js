@@ -36,8 +36,5 @@ export const usePlayerStore = defineStore('player', {
         }
         return false;
 		}
-  },
-  actions: {
-
   }
 });

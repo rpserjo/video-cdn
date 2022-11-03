@@ -54,13 +54,4 @@ const translationsStore = useTranslationsStore();
 const route = useRoute();
 const translationId = route.params.translationId;
 const translation = computed(() => mediaStore.translation(translationId));
-
-const seasonNum = '1';
-const watchKey = (seasonNum, episodeNum) => {
-  return `${route.params.mediaType}_${route.params.mediaId}_${seasonNum}_${episodeNum}`;
-}
-
-const downloadName = (episodeNum) => {
-  return `${mediaStore.mediaDownloadTitle} S${seasonNum.padStart(2, '0')}E${episodeNum}`;
-}
 </script>

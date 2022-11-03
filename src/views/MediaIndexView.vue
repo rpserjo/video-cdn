@@ -1,6 +1,15 @@
 <template>
 	<q-card flat bordered>
 		<q-card-section horizontal>
+      <div class="q-pa-sm absolute-top-right">
+        <q-btn
+          round
+          color="secondary"
+          size="md"
+          :icon="bookmarksStore.isBookmarked(route.params.mediaType, route.params.mediaId) ? 'bookmark_remove' : 'bookmark_add'"
+          @click="bookmarksStore.toggleBookmark(route.params.mediaType, route.params.mediaId)"
+        />
+      </div>
 			<q-img
    			:src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`"
    			style="width: 300px; max-width: 33%;"
@@ -28,29 +37,10 @@
         <media-element
           :media-title="translationsStore.smartTitle(translation)"
           :media-links="mediaStore.translation(translation)"
-          :poster="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`"
+          :poster="`https://pleer.video/${mediaStore.mediaApiData.kinopoisk_id}.img`"
           :watch-key="`movie_${route.params.mediaId}`"
           :download-name="mediaStore.mediaDownloadTitle"
         />
-<!--				<q-item-section avatar>
-					<q-icon color="secondary" name="movie" />
-				</q-item-section>
-				<q-item-section>
-					{{ translationsStore.smartTitle(translation) }}
-				</q-item-section>
-				<q-menu touch-position anchor="center middle" self="center middle" transition-show="scale" transition-hide="scale">
-					<div class="row no-wrap q-pa-md">
-						<div class="column">
-							<div class="col">
-								{{ translationsStore.smartTitle(translation) }}
-							</div>
-							<div v-for="(link, quality) in mediaStore.translation(translation)" :key="quality" class="col q-pa-sm">
-								<q-btn v-if="playerStore.watchOnline" outline rounded no-caps icon="movie" :label="`${quality}p`" @click="playVideo"/>
-								<q-btn v-else outline rounded no-caps :href="link" icon="download" :label="`${quality}p`" />
-							</div>
-						</div>
-					</div>
-				</q-menu>-->
 			</q-item>
    	</template>
    	<template v-else>
@@ -71,14 +61,13 @@ import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMediaStore } from 'src/stores/media';
 import { useTranslationsStore } from 'src/stores/translations';
-import { usePlayerStore } from 'src/stores/player';
 import MediaElement from 'src/components/MediaElement.vue';
-
+import {useBookmarksStore} from "stores/bookmarks";
 
 const route = useRoute();
 const mediaStore = useMediaStore();
 const translationsStore = useTranslationsStore();
-const playerStore = usePlayerStore();
+const bookmarksStore = useBookmarksStore();
 const mediaType = ref('');
 const mediaId = ref(0);
 
@@ -88,7 +77,4 @@ onMounted(() => {
 	mediaType.value = route.params.mediaType;
 	mediaId.value = route.params.mediaId;
 });
-
-
-
 </script>
