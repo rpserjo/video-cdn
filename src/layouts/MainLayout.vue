@@ -100,10 +100,6 @@
 			</router-view>
     	</template>
     	<div v-else>Translations is loading...</div>
-      <div>
-        {{ route.matched[0] }}<hr>
-        {{ route.matched[route.matched.length - 2] }}
-      </div>
     </q-page-container>
   </q-layout>
   <video-player />
