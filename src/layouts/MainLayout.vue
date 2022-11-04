@@ -2,24 +2,23 @@
   <q-layout view="lHh LpR lff">
     <q-header elevated class="bg-teal-5">
       <q-toolbar class="flex">
-      	<transition name="flip" mode="out-in">
-          	<q-btn
-          		v-if="route.name === 'index'"
-            	icon="live_tv"
-            	flat
-            	dense
-            	round
-            	@click="router.push({name: 'index'})"
-          	/>
-          	<q-btn
-          		v-else
-            	icon="arrow_back"
-            	flat
-            	dense
-            	round
-            	@click="router.go(-1)"
-          	/>
-          </transition>
+        <transition name="flip" mode="out-in">
+          <q-btn
+            v-if="route.name === 'index'"
+            icon="live_tv"
+            flat
+            dense
+            round
+          />
+          <q-btn
+            v-else
+            icon="arrow_back"
+            flat
+            dense
+            round
+            @click="goUp"
+          />
+        </transition>
         <q-toolbar-title class="text-dark">
           <q-input dark dense standout v-model="searchStore.searchQuery" input-class="text-left" class="q-ml-md" @click.stop @keydown.enter="doSearch">
             <template v-slot:prepend>
@@ -101,6 +100,10 @@
 			</router-view>
     	</template>
     	<div v-else>Translations is loading...</div>
+      <div>
+        {{ route.matched[0] }}<hr>
+        {{ route.matched[route.matched.length - 2] }}
+      </div>
     </q-page-container>
   </q-layout>
   <video-player />
@@ -189,6 +192,18 @@ onBeforeMount(async () => {
     $q.loading.hide();
   }
 });
+
+const goUp = () => {
+  switch(route.name){
+    case 'season':
+    case 'translation':
+      router.push({name: 'media-index'});
+      break;
+    default:
+      router.push({name: 'index'});
+      break;
+  }
+}
 </script>
 
 <style scoped>

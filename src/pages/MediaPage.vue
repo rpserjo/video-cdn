@@ -1,6 +1,10 @@
 <template>
   <q-page>
-	  <router-view />
+    <router-view v-slot="{ Component }">
+      <transition name="slide-left" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </q-page>
 </template>
 
@@ -48,3 +52,14 @@ watch([mediaType, mediaId], async ([mediaType, mediaId]) => {
 	}
 });
 </script>
+
+<style>
+.slide-left-enter-from,
+.slide-left-leave-to{
+  transform: translateX(100%);
+}
+.slide-left-enter-active,
+.slide-left-leave-active{
+  transition: all 0.3s;
+}
+</style>

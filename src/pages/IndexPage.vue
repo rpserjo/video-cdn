@@ -36,11 +36,9 @@ onActivated(async () => {
   bookmarks.value = [];
   try{
     for(let bookmark of Array.from(bookmarksStore.bookmarks).reverse()){
-      console.log(bookmark)
       const [ mediaType, mediaId ] = bookmark.split(':');
       const { data } = await fetchMediaById(mediaType, mediaId);
       const media = data[0];
-      console.log(media)
       media.media_type = mediaType;
       media.media_year = '1900';
       bookmarks.value.push(media)
