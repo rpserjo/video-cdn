@@ -21,7 +21,7 @@ export const useSearchStore = defineStore('search', {
       {
         key: 'show-tv-series',
         label: 'TV Shows',
-        checked: false
+        checked: true
       }
     ],
     searchResults: [],

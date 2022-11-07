@@ -2,15 +2,6 @@
   <div>
     <q-card flat bordered>
       <q-card-section horizontal>
-        <div class="q-pa-sm absolute-top-right">
-          <q-btn
-            round
-            color="secondary"
-            size="md"
-            :icon="bookmarksStore.isBookmarked(route.params.mediaType, route.params.mediaId) ? 'bookmark_remove' : 'bookmark_add'"
-            @click="bookmarksStore.toggleBookmark(route.params.mediaType, route.params.mediaId)"
-          />
-        </div>
         <q-img
           :src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`"
           style="width: 300px; max-width: 33%;"
@@ -29,6 +20,15 @@
             {{ mediaStore.mediaApiData.orig_title }} ({{ mediaStore.mediaApiData.media_year }})
           </div>
         </q-card-section>
+        <div class="absolute-top-left">
+          <q-btn
+            round
+            color="secondary"
+            size="md"
+            :icon="bookmarksStore.isBookmarked(route.params.mediaType, route.params.mediaId) ? 'bookmark_remove' : 'bookmark_add'"
+            @click="bookmarksStore.toggleBookmark(route.params.mediaType, route.params.mediaId)"
+          />
+        </div>
       </q-card-section>
     </q-card>
      <q-list bordered padding>
