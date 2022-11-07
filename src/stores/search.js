@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import {useQuasar} from "quasar";
-import {searchQuery} from "src/http";
+import { useQuasar } from "quasar";
+import { searchQuery } from "src/http";
+import { useParseMedia } from 'src/use/useParseMedia.js';
 
 export const useSearchStore = defineStore('search', {
   state: () => ({
@@ -45,13 +46,16 @@ export const useSearchStore = defineStore('search', {
           const response = await searchQuery(type, this._searchQuery, this._searchYear);
           if(response && response.data.length > 0){
           	response.data.map(media => {
-          		media.media_type = type;
-          		media.media_year = (type === 'movies') ? media.released : media.start_date;//.substring(0, 4);
-          		media.media_year = media.media_year.substring(0, 4);
-          		return media;
-          	})
+          		return useParseMedia(type, media);
+          	});
             this.searchResults = [...this.searchResults, ...response.data];
           }
+        }
+        if(this.searchResults.length === 0) {
+			this.q.notify({
+				type: 'warning',
+				message: 'Nothing found',				
+			});        
         }
       }catch(e){
         console.log(e);

@@ -1,31 +1,17 @@
 <template>
   <q-page>
-    <h5>Bookmarks</h5>
-    <q-intersection
-      v-for="(bookmark, key) in bookmarks"
-      :key="key"
-      transition="scale"
-      class="item"
-    >
-      <media-list-element
-        :media_type="bookmark.media_type"
-        :id="bookmark.id"
-        :kinopoisk_id="bookmark.kinopoisk_id"
-        :ru_title="bookmark.ru_title"
-        :orig_title="bookmark.orig_title"
-        :media_year="bookmark.media_year"
-      />
-    </q-intersection>
+    <div class="text-h4 q-pa-sm">Bookmarks</div>
+    <media-list :list="bookmarks" />
   </q-page>
 </template>
 
 <script setup>
-
 import { useBookmarksStore } from "stores/bookmarks";
 import { onActivated, ref} from "vue";
-import {fetchMediaById} from "src/http";
-import MediaListElement from "components/MediaListElement.vue";
-import {useQuasar} from "quasar";
+import { fetchMediaById } from "src/http";
+import MediaList from "components/MediaList.vue";
+import { useQuasar } from "quasar";
+import { useParseMedia } from 'src/use/useParseMedia.js';
 
 const bookmarksStore = useBookmarksStore();
 const bookmarks = ref([]);
@@ -38,9 +24,7 @@ onActivated(async () => {
     for(let bookmark of Array.from(bookmarksStore.bookmarks).reverse()){
       const [ mediaType, mediaId ] = bookmark.split(':');
       const { data } = await fetchMediaById(mediaType, mediaId);
-      const media = data[0];
-      media.media_type = mediaType;
-      media.media_year = '1900';
+      const media = useParseMedia(mediaType, data[0]);
       bookmarks.value.push(media)
     }
   }catch(e){
@@ -49,11 +33,5 @@ onActivated(async () => {
     $q.loading.hide();
   }
 
-})
+});
 </script>
-
-<style scoped>
-.item{
-  min-height: 150px;
-}
-</style>

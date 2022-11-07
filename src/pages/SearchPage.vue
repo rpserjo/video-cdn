@@ -1,32 +1,13 @@
 <template>
   <q-page>
-    <div>
-      <q-intersection
-        v-for="(searchResult, key) in searchStore.orderedResults"
-        :key="key"
-        transition="scale"
-        class="item"
-      >
-        <media-list-element
-          :media_type="searchResult.media_type"
-          :id="searchResult.id"
-          :kinopoisk_id="searchResult.kinopoisk_id"
-          :ru_title="searchResult.ru_title"
-          :orig_title="searchResult.orig_title"
-          :media_year="searchResult.media_year"
-        />
-      </q-intersection>
-    </div>
-    <div v-if="searchStore.searchResults.length === 0">
-      Nothing found
-    </div>
+	<media-list :list="searchStore.orderedResults" />
   </q-page>
 </template>
 
 <script setup>
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSearchStore } from 'stores/search';
-import MediaListElement from 'src/components/MediaListElement.vue';
+import MediaList from 'src/components/MediaList.vue';
 import { onMounted } from 'vue';
 
 const route = useRoute();
@@ -52,9 +33,3 @@ onMounted(() => {
   if(props.outside === true) searchStore.executeSearch();
 });
 </script>
-
-<style scoped>
-.item{
-  min-height: 150px;
-}
-</style>

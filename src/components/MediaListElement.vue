@@ -17,7 +17,8 @@
       <q-item-label>{{ props.ru_title }}</q-item-label>
       <q-item-label caption>{{ props.orig_title }} ({{ props.media_year }})</q-item-label>
     </q-item-section>
-  </q-item>
+  </q-item>  
+  <q-separator/>
 </template>
 
 <script setup>
