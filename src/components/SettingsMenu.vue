@@ -11,7 +11,7 @@
     >
       <q-scroll-area class="fit">
         <q-list bordered padding>
-        	<q-item-label header>Settings {{ darkMode }}</q-item-label>
+        	<q-item-label header>Settings</q-item-label>
           <q-item tag="label" v-ripple>
             <q-item-section>
               <q-item-label>Dark mode</q-item-label>

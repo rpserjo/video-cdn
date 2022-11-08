@@ -170,6 +170,8 @@ watch(() => bookmarksStore.bookmarks, () => {
 }, {deep: true});
 
 onBeforeMount(async () => {
+  $q.dark.set('auto');
+  darkMode.value = $q.dark.isActive;
   $q.loading.show();
   searchStore.searchQuery = localStorage.getItem('lastSearchQuery') || '';
   playerStore.watchOnline = localStorage.getItem('watchOnline') == 'true' ? true : false;
