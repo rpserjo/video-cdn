@@ -11,7 +11,7 @@
 <script setup>
 import { onActivated, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useQuasar } from 'quasar';
+import { useQuasar, useMeta } from 'quasar';
 import { fetchMediaById, fetchMediaData } from 'src/http';
 import { useMediaStore } from 'src/stores/media';
 import { htmlParser } from 'src/helpers/htmlParser';
@@ -21,10 +21,18 @@ const $q = useQuasar();
 const mediaId = ref(0);
 const mediaType = ref('');
 const mediaStore = useMediaStore();
+const pageTitle = ref('Media');
+
+useMeta(() => {
+	return {
+		title: pageTitle.value,
+	}
+});
 
 onActivated(() => {
 	mediaId.value = route.params.mediaId;
 	mediaType.value = route.params.mediaType;
+	console.log(process.env)
 })
 
 watch([mediaType, mediaId], async ([mediaType, mediaId]) => {
@@ -36,6 +44,7 @@ watch([mediaType, mediaId], async ([mediaType, mediaId]) => {
 			const mediaApiData = await fetchMediaById(mediaType, mediaId);
 			if(mediaApiData.data.length > 0){
 				mediaStore.mediaApiData = mediaApiData.data[0];
+				pageTitle.value = `${process.env.APP_TITLE} - ${mediaStore.mediaApiData.orig_title}`;
 				mediaStore.mediaApiData.media_type = mediaType;
 				mediaStore.mediaApiData.media_year = (mediaType === 'movies') ? mediaStore.mediaApiData.released.substring(0, 4) : mediaStore.mediaApiData.start_date.substring(0, 4);
 				const src_url = mediaStore.mediaApiData.iframe_src;

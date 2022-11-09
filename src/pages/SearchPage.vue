@@ -8,7 +8,8 @@
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSearchStore } from 'stores/search';
 import MediaList from 'src/components/MediaList.vue';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useMeta } from 'quasar';
 
 const route = useRoute();
 const router = useRouter();
@@ -18,6 +19,14 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
+});
+
+const pageTitle = ref(`${process.env.APP_TITLE} - Search`);
+
+useMeta(() => {
+	return {
+		title: pageTitle.value,
+	}
 });
 
 onBeforeRouteUpdate((to, from) => {

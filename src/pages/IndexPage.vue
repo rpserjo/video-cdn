@@ -10,12 +10,19 @@ import { useBookmarksStore } from "stores/bookmarks";
 import { onActivated, ref} from "vue";
 import { fetchMediaById } from "src/http";
 import MediaList from "components/MediaList.vue";
-import { useQuasar } from "quasar";
+import { useQuasar, useMeta } from "quasar";
 import { useParseMedia } from 'src/use/useParseMedia.js';
 
 const bookmarksStore = useBookmarksStore();
 const bookmarks = ref([]);
 const $q = useQuasar();
+const pageTitle = ref(`${process.env.APP_TITLE} - Bookmarks`);
+
+useMeta(() => {
+	return {
+		title: pageTitle.value,
+	}
+});
 
 onActivated(async () => {
   $q.loading.show();
@@ -32,6 +39,6 @@ onActivated(async () => {
   }finally {
     $q.loading.hide();
   }
-
+	
 });
 </script>

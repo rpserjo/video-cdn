@@ -62,7 +62,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+			APP_TITLE: 'CDN App'      
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -101,7 +103,8 @@ module.exports = configure(function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Loading',
-        'Notify'
+        'Notify',
+        'Meta'
       ]
     },
 
