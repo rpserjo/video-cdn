@@ -84,8 +84,6 @@ const playVideo = (src, quality) => {
 }
 
 const handleHold = () => {
-	console.log('hold');
-	console.log(playerStore.isWatched(props.watchKey));
 	playerStore.isWatched(props.watchKey) ? playerStore.watchHistory.delete(props.watchKey) : playerStore.watchHistory.add(props.watchKey);
 	$q.notify({
 		position: 'bottom-left',
