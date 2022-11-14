@@ -63,7 +63,8 @@ module.exports = configure(function (/* ctx */) {
       // publicPath: '/',
       // analyze: true,
       env: {
-			APP_TITLE: 'CDN App'      
+			APP_TITLE: 'CDN App',
+			API_TOKEN: 'gZrhCKFj6pA1W4h96i6g5IjhW7aR0CLk'
       },
       // rawDefine: {}
       // ignorePublicFolder: true,

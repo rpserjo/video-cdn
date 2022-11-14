@@ -35,14 +35,13 @@ const parseFiles = (string) => {
 }
 
 export const htmlParser = (mediaType, html) => {
-
     const translations = {};
     try{
         const files = html.match('id="files" value="(.*)"');
         const mediaData = JSON.parse(files[1].split('&quot;').join('"'));
+        //console.log(mediaData);
         Object.keys(mediaData).filter(translation_id => translation_id > 0).forEach(translation_id => {
-            translations[translation_id] = {};
-            //console.log(mediaData);
+            translations[translation_id] = {};            
             if(mediaType == 'movies'){
                 translations[translation_id] = parseFiles(mediaData[translation_id]);
             }else{

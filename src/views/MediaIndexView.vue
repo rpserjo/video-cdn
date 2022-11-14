@@ -38,7 +38,7 @@
           <media-element
             :media-title="translationsStore.smartTitle(translation)"
             :media-links="mediaStore.translation(translation)"
-            :poster="`https://pleer.video/${mediaStore.mediaApiData.kinopoisk_id}.img`"
+            :poster="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`"
             :watch-key="`movie_${route.params.mediaId}`"
             :download-name="mediaStore.mediaDownloadTitle"
           />

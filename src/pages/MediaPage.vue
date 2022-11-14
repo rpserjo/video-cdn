@@ -15,6 +15,7 @@ import { useQuasar, useMeta } from 'quasar';
 import { fetchMediaById, fetchMediaData } from 'src/http';
 import { useMediaStore } from 'src/stores/media';
 import { htmlParser } from 'src/helpers/htmlParser';
+import { useParseMedia } from 'src/use/useParseMedia';
 
 const route = useRoute();
 const $q = useQuasar();
@@ -32,30 +33,68 @@ useMeta(() => {
 onActivated(() => {
 	mediaId.value = route.params.mediaId;
 	mediaType.value = route.params.mediaType;
-	console.log(process.env)
-})
+});
+
+const loadMedia = async (mediaType, mediaId) => {
+	$q.loading.show();
+	try{		
+		const mediaApiData = await fetchMediaById(mediaType, mediaId);		
+		if(mediaApiData.data.length > 0){
+			mediaStore.mediaApiData = useParseMedia(mediaType, mediaApiData.data[0]);
+			pageTitle.value = `${process.env.APP_TITLE} - ${mediaStore.mediaApiData.orig_title}`;
+			await loadMediaData();
+		}
+	}catch(e){
+		console.log(e);
+		$q.notify({
+			type: 'negative',
+			message: 'Media data loading failed',
+			caption: `${e.code}: ${e.message}`,
+			timeout: 0,
+			actions: [
+				{
+					label: 'Retry',
+					color: 'white',										
+					handler: () => loadMedia(mediaType, mediaId)				
+				}			
+			]
+		});
+	}finally{
+		$q.loading.hide();
+	}
+};
+
+const loadMediaData = async () => {
+	$q.loading.show();
+	try{
+		const html = await fetchMediaData(mediaStore.mediaApiData.iframe_src);
+		mediaStore.mediaFiles = htmlParser(mediaStore.mediaApiData.media_type, html);
+	}catch(e){
+		console.log(e);
+		$q.notify({
+			type: 'negative',
+			message: 'Media files loading failed',
+			caption: `${e.code}: ${e.message}`,
+			timeout: 0,
+			actions: [
+				{
+					label: 'Retry',
+					color: 'white',										
+					handler: () => loadMediaData()				
+				}			
+			]
+		});
+	}finally{
+		$q.loading.hide();
+	}
+}
 
 watch([mediaType, mediaId], async ([mediaType, mediaId]) => {
+	console.log('watch');
 	if(['tv-series', 'movies', 'show-tv-series'].indexOf(mediaType) > -1){
     mediaStore.mediaApiData = {};
     mediaStore.mediaFiles = {};
-		try{
-      $q.loading.show();
-			const mediaApiData = await fetchMediaById(mediaType, mediaId);
-			if(mediaApiData.data.length > 0){
-				mediaStore.mediaApiData = mediaApiData.data[0];
-				pageTitle.value = `${process.env.APP_TITLE} - ${mediaStore.mediaApiData.orig_title}`;
-				mediaStore.mediaApiData.media_type = mediaType;
-				mediaStore.mediaApiData.media_year = (mediaType === 'movies') ? mediaStore.mediaApiData.released.substring(0, 4) : mediaStore.mediaApiData.start_date.substring(0, 4);
-				const src_url = mediaStore.mediaApiData.iframe_src;
-				const html = await fetchMediaData(src_url);
-				mediaStore.mediaFiles = htmlParser(mediaType, html);
-			}
-		}catch(e){
-			console.log(e);
-		}finally{
-			$q.loading.hide();
-		}
+    await loadMedia(mediaType, mediaId);
 	}else{
 		console.log('no match', mediaType, mediaType == ('movies' || 'tv-series' || 'show-tv-series'), mediaId > 0)
 	}
