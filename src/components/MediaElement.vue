@@ -3,6 +3,7 @@
     <q-icon
       :color="playerStore.isWatched(props.watchKey) ? 'primary' : 'secondary'"
       name="movie"
+      v-touch-hold:1500.mouse="handleHold"
     />
   </q-item-section>
   <q-item-section>
@@ -47,7 +48,9 @@
 <script setup>
 import { usePlayerStore } from "stores/player";
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const showPlayerMenu = ref(false);
 const playerStore = usePlayerStore();
 const props = defineProps({
@@ -78,5 +81,16 @@ const playVideo = (src, quality) => {
   playerStore.playlist = props.playlist;
   playerStore.quality = quality;
   playerStore.episodeNum = props.episodeNum;
+}
+
+const handleHold = () => {
+	console.log('hold');
+	console.log(playerStore.isWatched(props.watchKey));
+	playerStore.isWatched(props.watchKey) ? playerStore.watchHistory.delete(props.watchKey) : playerStore.watchHistory.add(props.watchKey);
+	$q.notify({
+		position: 'bottom-left',
+		timeout: 1000,
+		message: 'Watch status changed'
+	})
 }
 </script>
