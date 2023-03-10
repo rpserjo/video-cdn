@@ -31,7 +31,7 @@ onActivated(async () => {
     for(let bookmark of Array.from(bookmarksStore.bookmarks).reverse()){
       const [ mediaType, mediaId ] = bookmark.split(':');
       const { data } = await fetchMediaById(mediaType, mediaId);
-      const media = useParseMedia(mediaType, data[0]);
+      const media = useParseMedia(mediaType, {...data[0], kinopoisk_id: mediaId, id: mediaId});
       bookmarks.value.push(media)
     }
   }catch(e){
@@ -39,6 +39,6 @@ onActivated(async () => {
   }finally {
     $q.loading.hide();
   }
-	
+
 });
 </script>

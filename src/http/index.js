@@ -35,7 +35,7 @@ const searchQuery = async (type, searchQuery, searchYear = null) => {
 const fetchMediaById = async (mediaType, mediaId) => {
   const { data } = await http.get('short', {params:
       {
-        kinopoisk_id: mediaId
+        kinopoisk_id: mediaId,
       }
   });
   return data;

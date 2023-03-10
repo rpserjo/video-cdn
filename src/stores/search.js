@@ -32,7 +32,8 @@ export const useSearchStore = defineStore('search', {
   }),
   getters: {
     orderedResults: (state) => {
-      return state.searchResults.sort((a, b) => a.orig_title.localeCompare(b.orig_title));
+      const filtered = state.searchResults.filter(el => el.kinopoisk_id > 0);
+      return filtered.sort((a, b) => a.orig_title.localeCompare(b.orig_title));
     }
   },
   actions: {
@@ -44,9 +45,7 @@ export const useSearchStore = defineStore('search', {
       try{
         for(const type of types){
           const response = await searchQuery(type, this._searchQuery, this._searchYear);
-          //console.log('response', response)
           if(response && response.data.length > 0){
-          	//console.log(response.data)
           	response.data.map(media => {
           		return useParseMedia(type, media);
           	});

@@ -1,25 +1,24 @@
 import { defineStore } from 'pinia'
+import json from '../assets/translations.json';
 
 export const useTranslationsStore = defineStore('translations', {
   state: () => ({
-    translations: []
+    translations: json || []
   }),
   getters: {
     smartTitle: (state) => {
       return (id) => {
-        //console.log(id, state.translations);
         const translation = state.translations.filter(translation => translation.id === +id)[0] || {};
-        //console.log(translation);
-        return translation.smart_title || 'unknown';
+        return translation.short_title || 'unknown';
       }
     }
   },
   actions: {
     setTranslations(translations){
-      this.translations = translations;
+      //this.translations = translations;
     },
     pushTranslations(translations){
-		this.translations = [...this.translations, ...translations];    
+		  this.translations = [...this.translations, ...translations];
     }
   }
-})
+});
