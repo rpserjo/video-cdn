@@ -7,9 +7,9 @@
     >
       <media-list-element
         :media_type="element.media_type"
-        :id="element.id"
+        :id="element.kinopoisk_id"
         :kinopoisk_id="element.kinopoisk_id"
-        :ru_title="element.ru_title"
+        :ru_title="element.title"
         :orig_title="element.orig_title"
         :media_year="element.media_year"
       />
@@ -21,7 +21,7 @@ import MediaListElement from "components/MediaListElement.vue";
 const { list } = defineProps({
 	list: {
 		type: Array,
-		default: []	
+		default: []
 	}
 });
 </script>

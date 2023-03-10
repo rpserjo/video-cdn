@@ -183,12 +183,12 @@ const loadTranslations = async() => {
 			actions: [
 				{
 					label: 'Retry',
-					color: 'white',										
+					color: 'white',
 					handler: () => loadTranslations()
-				}			
+				}
 			]
 		});
-		
+
 	}finally{
 		$q.loading.hide();
 	}
@@ -196,7 +196,7 @@ const loadTranslations = async() => {
 
 onBeforeMount(async () => {
   $q.dark.set('auto');
-  darkMode.value = $q.dark.isActive;  
+  darkMode.value = $q.dark.isActive;
   searchStore.searchQuery = localStorage.getItem('lastSearchQuery') || '';
   playerStore.watchOnline = localStorage.getItem('watchOnline') == 'true' ? true : false;
   playerStore.autoPlay = localStorage.getItem('autoPlay') == 'true' ? true : false;
@@ -204,8 +204,8 @@ onBeforeMount(async () => {
   const watchHistoryLocal = localStorage.getItem('watchHistory');
   playerStore.watchHistory = new Set(JSON.parse(watchHistoryLocal)) || new Set();
   const bookmarksLocal = localStorage.getItem('bookmarks');
-  bookmarksStore.bookmarks = new Set(JSON.parse(bookmarksLocal)) || new Set();  
-  await loadTranslations();
+  bookmarksStore.bookmarks = new Set(JSON.parse(bookmarksLocal)) || new Set();
+  //await loadTranslations();
 });
 
 const goUp = () => {

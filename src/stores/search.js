@@ -32,7 +32,8 @@ export const useSearchStore = defineStore('search', {
   }),
   getters: {
     orderedResults: (state) => {
-      return state.searchResults.sort((a, b) => a.orig_title.localeCompare(b.orig_title));
+      const filtered = state.searchResults.filter(el => el.kinopoisk_id > 0);
+      return filtered.sort((a, b) => a.orig_title.localeCompare(b.orig_title));
     }
   },
   actions: {
@@ -54,8 +55,8 @@ export const useSearchStore = defineStore('search', {
         if(this.searchResults.length === 0) {
 			this.q.notify({
 				type: 'warning',
-				message: 'Nothing found',				
-			});        
+				message: 'Nothing found',
+			});
         }
       }catch(e){
         console.log(e);
