@@ -9,7 +9,7 @@ export const useTranslationsStore = defineStore('translations', {
     smartTitle: (state) => {
       return (id) => {
         const translation = state.translations.filter(translation => translation.id === +id)[0] || {};
-        return translation.short_title || 'unknown';
+        return translation.shorter_title || 'unknown';
       }
     }
   },

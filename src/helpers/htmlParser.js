@@ -47,9 +47,9 @@ export const htmlParser = (mediaType, html) => {
         		const id = +el.match('value="(.*)"')[1];
         		const translation = el.match('>(.*)</option')[1].trim();
 
-        		return {id, smart_title: translation};
+        		return {id, shorter_title: translation};
         }) || [{id: +html.match('id="translation_id" value="(.*)"')[1], smart_title: `id:${html.match('id="translation_id" value="(.*)"')[1]}`}];
-
+        console.log(tt);
         translationsStore.pushTranslations(tt);
         const trList = {};
         tt.forEach(el => trList[el.id] = el.smart_title);

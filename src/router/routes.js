@@ -18,7 +18,7 @@ const routes = [
         beforeEnter: (to, from) => {
           if(from.name === undefined){
             to.params.outside = true;
-            console.log('outside')
+            //console.log('outside')
           }
         }
       },
