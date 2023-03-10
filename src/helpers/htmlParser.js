@@ -49,7 +49,6 @@ export const htmlParser = (mediaType, html) => {
 
         		return {id, shorter_title: translation};
         }) || [{id: +html.match('id="translation_id" value="(.*)"')[1], smart_title: `id:${html.match('id="translation_id" value="(.*)"')[1]}`}];
-        console.log(tt);
         translationsStore.pushTranslations(tt);
         const trList = {};
         tt.forEach(el => trList[el.id] = el.smart_title);

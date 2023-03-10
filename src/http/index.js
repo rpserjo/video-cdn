@@ -25,9 +25,7 @@ const searchQuery = async (type, searchQuery, searchYear = null) => {
         }
     });
   }catch(e) {
-      console.log('EEE', e);
   }finally{
-    console.log('data', data?.data)
     return data?.data || {data: {}};
   }
 }
