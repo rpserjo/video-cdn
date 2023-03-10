@@ -28,16 +28,21 @@ export const useMediaStore = defineStore('media', {
     },
     episodeTitle: (state) => {
       return (seasonNum, episodeNum) => {
-        const episode = state.mediaApiData.episodes.filter(episode => episode.season_num == seasonNum && episode.num == episodeNum)[0];
+        //const episode = state.mediaApiData.episodes.filter(episode => episode.season_num == seasonNum && episode.num == episodeNum)[0];
         let title = `S${seasonNum.padStart(2, '0')}E${String(episodeNum).padStart(2, '0')}`;
-        if(episode != undefined){
+        /*if(episode != undefined){
           title = `${title} - ${episode.orig_title}`;
           if(episode.orig_title != episode.ru_title){
             title = `${title} / ${episode.ru_title}`;
           }
-        }
+        }*/
         return title;
       }
+    }
+  },
+  actions: {
+    setPoster(url){
+      this.mediaApiData.poster = url;
     }
   }
 });

@@ -38,7 +38,7 @@
           <media-element
             :media-title="translationsStore.smartTitle(translation)"
             :media-links="mediaStore.translation(translation)"
-            :poster="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`"
+            :poster="`${mediaStore.mediaApiData.poster}`"
             :watch-key="`movie_${route.params.mediaId}`"
             :download-name="mediaStore.mediaDownloadTitle"
           />

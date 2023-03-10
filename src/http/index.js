@@ -15,16 +15,21 @@ const fetchTranslations = async () => {
 }
 
 const searchQuery = async (type, searchQuery, searchYear = null) => {
-  const { data } = await http.get(type, {params:
-      {
-        query: searchQuery,
-        year: searchYear
-      }
-  }).catch(e => {
-  		console.log(e)
-  });
-  console.log('data', await data)
-  return data;
+  let data;
+  try {
+    data = await http.get(type, {
+      params:
+        {
+          query: searchQuery,
+          year: searchYear
+        }
+    });
+  }catch(e) {
+      console.log('EEE', e);
+  }finally{
+    console.log('data', data?.data)
+    return data?.data || {data: {}};
+  }
 }
 
 const fetchMediaById = async (mediaType, mediaId) => {

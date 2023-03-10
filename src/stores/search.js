@@ -44,9 +44,9 @@ export const useSearchStore = defineStore('search', {
       try{
         for(const type of types){
           const response = await searchQuery(type, this._searchQuery, this._searchYear);
-          console.log('response', response)
+          //console.log('response', response)
           if(response && response.data.length > 0){
-          	console.log(response.data)
+          	//console.log(response.data)
           	response.data.map(media => {
           		return useParseMedia(type, media);
           	});
@@ -56,8 +56,8 @@ export const useSearchStore = defineStore('search', {
         if(this.searchResults.length === 0) {
 			this.q.notify({
 				type: 'warning',
-				message: 'Nothing found',				
-			});        
+				message: 'Nothing found',
+			});
         }
       }catch(e){
         console.log(e);
