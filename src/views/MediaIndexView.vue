@@ -3,7 +3,7 @@
     <q-card flat bordered>
       <q-card-section horizontal>
         <q-img
-          :src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kinopoisk_id}.jpg`"
+          :src="`https://kinopoiskapiunofficial.tech/images/posters/kp_small/${mediaStore.mediaApiData.kp_id}.jpg`"
           style="width: 300px; max-width: 33%;"
           loading="lazy"
         >
@@ -14,7 +14,7 @@
         <q-separator vertical />
         <q-card-section>
           <div class="text-h6">
-            {{ mediaStore.mediaApiData.ru_title }}
+            {{ mediaStore.mediaApiData.title }}
           </div>
           <div class="text-subtitle2">
             {{ mediaStore.mediaApiData.orig_title }} ({{ mediaStore.mediaApiData.media_year }})

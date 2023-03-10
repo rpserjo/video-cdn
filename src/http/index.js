@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: 'https://3.svetacdn.in/api/',
-  //baseURL: 'https://333.annacdn.cc/api/',
+  //baseURL: 'https://3.svetacdn.in/api/',
+  baseURL: 'https://videocdn.tv/api/',
   params: {
-    //api_token: 'gZrhCKFj6pA1W4h96i6g5IjhW7aR0CLk',
     api_token: process.env.API_TOKEN,
     limit: 100
   }
@@ -21,14 +20,17 @@ const searchQuery = async (type, searchQuery, searchYear = null) => {
         query: searchQuery,
         year: searchYear
       }
+  }).catch(e => {
+  		console.log(e)
   });
+  console.log('data', await data)
   return data;
 }
 
 const fetchMediaById = async (mediaType, mediaId) => {
-  const { data } = await http.get(mediaType, {params:
+  const { data } = await http.get('short', {params:
       {
-        id: mediaId
+        kinopoisk_id: mediaId
       }
   });
   return data;

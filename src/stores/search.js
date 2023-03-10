@@ -44,7 +44,9 @@ export const useSearchStore = defineStore('search', {
       try{
         for(const type of types){
           const response = await searchQuery(type, this._searchQuery, this._searchYear);
+          console.log('response', response)
           if(response && response.data.length > 0){
+          	console.log(response.data)
           	response.data.map(media => {
           		return useParseMedia(type, media);
           	});

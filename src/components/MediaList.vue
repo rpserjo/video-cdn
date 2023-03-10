@@ -7,7 +7,7 @@
     >
       <media-list-element
         :media_type="element.media_type"
-        :id="element.id"
+        :id="element.kinopoisk_id"
         :kinopoisk_id="element.kinopoisk_id"
         :ru_title="element.ru_title"
         :orig_title="element.orig_title"

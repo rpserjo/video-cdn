@@ -7,7 +7,7 @@ export const useMediaStore = defineStore('media', {
   }),
   getters: {
   	mediaTitleInline: (state) => {
-  		return `${state.mediaApiData.ru_title} / ${state.mediaApiData.orig_title}`;
+  		return `${state.mediaApiData.title} / ${state.mediaApiData.orig_title}`;
   	},
     mediaDownloadTitle: (state) => {
       return `${state.mediaApiData.orig_title} (${state.mediaApiData.media_year})`;
