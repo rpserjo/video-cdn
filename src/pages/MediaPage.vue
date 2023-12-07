@@ -37,8 +37,8 @@ onActivated(() => {
 
 const loadMedia = async (mediaType, mediaId) => {
 	$q.loading.show();
-	try{		
-		const mediaApiData = await fetchMediaById(mediaType, mediaId);		
+	try{
+		const mediaApiData = await fetchMediaById(mediaType, mediaId);
 		if(mediaApiData.data.length > 0){
 			mediaStore.mediaApiData = useParseMedia(mediaType, mediaApiData.data[0]);
 			pageTitle.value = `${process.env.APP_TITLE} - ${mediaStore.mediaApiData.orig_title}`;
@@ -54,9 +54,9 @@ const loadMedia = async (mediaType, mediaId) => {
 			actions: [
 				{
 					label: 'Retry',
-					color: 'white',										
-					handler: () => loadMedia(mediaType, mediaId)				
-				}			
+					color: 'white',
+					handler: () => loadMedia(mediaType, mediaId)
+				}
 			]
 		});
 	}finally{
@@ -67,7 +67,7 @@ const loadMedia = async (mediaType, mediaId) => {
 const loadMediaData = async () => {
 	$q.loading.show();
 	try{
-		const html = await fetchMediaData(mediaStore.mediaApiData.iframe_src);
+		const html = await fetchMediaData(`https://cors.nb557.workers.dev/https:${mediaStore.mediaApiData.iframe_src}`);
 		mediaStore.mediaFiles = htmlParser(mediaStore.mediaApiData.media_type, html);
 	}catch(e){
 		console.log(e);
@@ -79,9 +79,9 @@ const loadMediaData = async () => {
 			actions: [
 				{
 					label: 'Retry',
-					color: 'white',										
-					handler: () => loadMediaData()				
-				}			
+					color: 'white',
+					handler: () => loadMediaData()
+				}
 			]
 		});
 	}finally{
